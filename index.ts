@@ -7,21 +7,25 @@ app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
+// logger
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`Route: ${req.url} Metodo: ${req.method}`);
   next();
 });
 
+
+// isAuthenticated
 app.use((req: Request, res: Response, next: NextFunction) => {
-  
+  if (req.query.login === 'user@gmail.com') {
+    next();
+  } else {
+    res.send('No tienes permiso para acceder a esta ruta');
+  }
 });
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
-})
 
-app.get('/dashborad', (req: Request, res: Response) => {
-  res.send('Dashborad Page');
+app.get('/dashboard', (req: Request, res: Response) => {
+  res.send('Dashboard Page');
 })
 
 
